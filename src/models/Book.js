@@ -1,16 +1,36 @@
 // src/models/Book.js
 
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/db');
 
-const BookSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    author: { type: String, required: true },
-    genre: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-    isbn: { type: String, required: true },
+const Book = sequelize.define('Book', {
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    author: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    genre: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    isbn: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+    },
 });
 
-const Book = mongoose.model('Book', BookSchema);
+Book.sync({ alter: true });
 
 module.exports = Book;

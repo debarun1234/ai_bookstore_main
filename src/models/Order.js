@@ -1,20 +1,62 @@
 // src/models/Order.js
 
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/db');
+const User = require('./User');
+const Book = require('./Book');
 
-const OrderSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    books: [
-        {
-            book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
-            quantity: { type: Number, required: true },
-        }
-    ],
-    totalAmount: { type: Number, required: true },
-    address: { type: String, required: true },
-    status: { type: String, enum: ['processing', 'shipped', 'delivered'], default: 'processing' },
+const Order = sequelize.define('Order', {
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        },
+    },
+    totalAmount: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    status: {
+        type: DataTypes.ENUM('processing', 'shipped', 'delivered'),
+        defaultValue: 'processing',
+    },
 });
 
-const Order = mongoose.model('Order', OrderSchema);
+const OrderItem = sequelize.define('OrderItem', {
+    orderId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Order,
+            key: 'id',
+        },
+    },
+    bookId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Book,
+            key: 'id',
+        },
+    },
+    quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+});
 
-module.exports = Order;
+Order.hasMany(OrderItem, { as: 'items' });
+OrderItem.belongsTo(Order);
+Book.hasMany(OrderItem, { as: 'orderItems' });
+OrderItem.belongsTo(Book);
+
+Order.sync({ alter: true });
+OrderItem.sync({ alter: true });
+
+module.exports = { Order, OrderItem };

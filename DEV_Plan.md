@@ -149,6 +149,4 @@ To develop an AI-centralized bookstore system where the AI bot handles all inter
 - **Database**: MongoDB, Redis.
 - **AI/ML**: Rasa or Dialogflow, TensorFlow or PyTorch.
 - **Security**: OAuth2, JWT, HTTPS.
-- **Deployment**: Docker, Kubernetes, CI/CD pipelines.
-
-By following this development strategy, we can ensure a seamless, efficient, and user-friendly AI-driven bookstore system. This strategy focuses on minimizing user and seller effort while leveraging advanced AI capabilities to automate and enhance the overall experience.
+- **Deployment**: Docker, Kubernetes, CI/CD pipelines. 

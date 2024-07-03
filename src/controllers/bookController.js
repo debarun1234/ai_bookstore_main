@@ -3,12 +3,12 @@
 const Book = require('../models/Book');
 
 const getBooks = async (req, res) => {
-    const books = await Book.find({});
+    const books = await Book.findAll();
     res.json(books);
 };
 
 const getBookById = async (req, res) => {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findByPk(req.params.id);
 
     if (book) {
         res.json(book);
@@ -20,7 +20,7 @@ const getBookById = async (req, res) => {
 const createBook = async (req, res) => {
     const { title, author, genre, description, price, isbn } = req.body;
 
-    const book = new Book({
+    const book = await Book.create({
         title,
         author,
         genre,
@@ -29,14 +29,13 @@ const createBook = async (req, res) => {
         isbn,
     });
 
-    const createdBook = await book.save();
-    res.status(201).json(createdBook);
+    res.status(201).json(book);
 };
 
 const updateBook = async (req, res) => {
     const { title, author, genre, description, price, isbn } = req.body;
 
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findByPk(req.params.id);
 
     if (book) {
         book.title = title;
@@ -46,18 +45,18 @@ const updateBook = async (req, res) => {
         book.price = price;
         book.isbn = isbn;
 
-        const updatedBook = await book.save();
-        res.json(updatedBook);
+        await book.save();
+        res.json(book);
     } else {
         res.status(404).json({ message: 'Book not found' });
     }
 };
 
 const deleteBook = async (req, res) => {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findByPk(req.params.id);
 
     if (book) {
-        await book.remove();
+        await book.destroy();
         res.json({ message: 'Book removed' });
     } else {
         res.status(404).json({ message: 'Book not found' });

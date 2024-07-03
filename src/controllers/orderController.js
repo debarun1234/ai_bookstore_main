@@ -1,6 +1,7 @@
 // src/controllers/orderController.js
 
-const Order = require('../models/Order');
+const { Order, OrderItem } = require('../models/Order');
+const Book = require('../models/Book');
 
 const addOrderItems = async (req, res) => {
     const { orderItems, address, totalAmount } = req.body;
@@ -9,20 +10,32 @@ const addOrderItems = async (req, res) => {
         res.status(400).json({ message: 'No order items' });
         return;
     } else {
-        const order = new Order({
-            user: req.user._id,
-            books: orderItems,
+        const order = await Order.create({
+            userId: req.user.id,
             address,
             totalAmount,
         });
 
-        const createdOrder = await order.save();
-        res.status(201).json(createdOrder);
+        const orderItemsPromises = orderItems.map(async item => {
+            const book = await Book.findByPk(item.bookId);
+            if (book) {
+                await OrderItem.create({
+                    orderId: order.id,
+                    bookId: item.bookId,
+                    quantity: item.quantity,
+                });
+            }
+        });
+
+        await Promise.all(orderItemsPromises);
+        res.status(201).json(order);
     }
 };
 
 const getOrderById = async (req, res) => {
-    const order = await Order.findById(req.params.id).populate('user', 'firstName lastName email');
+    const order = await Order.findByPk(req.params.id, {
+        include: [{ model: OrderItem, as: 'items' }],
+    });
 
     if (order) {
         res.json(order);
@@ -32,7 +45,7 @@ const getOrderById = async (req, res) => {
 };
 
 const updateOrderToShipped = async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findByPk(req.params.id);
 
     if (order) {
         order.status = 'shipped';
@@ -44,7 +57,7 @@ const updateOrderToShipped = async (req, res) => {
 };
 
 const updateOrderToDelivered = async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findByPk(req.params.id);
 
     if (order) {
         order.status = 'delivered';
@@ -56,7 +69,10 @@ const updateOrderToDelivered = async (req, res) => {
 };
 
 const getUserOrders = async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
+    const orders = await Order.findAll({
+        where: { userId: req.user.id },
+        include: [{ model: OrderItem, as: 'items' }],
+    });
     res.json(orders);
 };
 

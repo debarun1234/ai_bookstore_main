@@ -1,7 +1,7 @@
 // src/middleware/authMiddleware.js
 
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import { verify } from 'jsonwebtoken';
+import { findById } from '../models/User';
 
 const protect = async (req, res, next) => {
     let token;
@@ -9,8 +9,8 @@ const protect = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1];
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = await User.findById(decoded.id).select('-password');
+            const decoded = verify(token, process.env.JWT_SECRET);
+            req.user = await findById(decoded.id).select('-password');
             next();
         } catch (error) {
             res.status(401).json({ message: 'Not authorized, token failed' });
@@ -30,7 +30,7 @@ const admin = (req, res, next) => {
     }
 };
 
-module.exports = {
+export default {
     protect,
     admin,
 };

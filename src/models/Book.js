@@ -1,7 +1,7 @@
 // src/models/Book.js
 
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/db';
+import { sequelize } from '../config/db.js';
 
 const Book = sequelize.define('Book', {
     title: {
@@ -29,6 +29,21 @@ const Book = sequelize.define('Book', {
         allowNull: false,
         unique: true,
     },
+}, {
+    indexes: [
+        {
+            fields: ['title'],
+        },
+        {
+            fields: ['author'],
+        },
+        {
+            fields: ['genre'],
+        },
+        {
+            fields: ['isbn'],
+        },
+    ],
 });
 
 Book.sync({ alter: true });

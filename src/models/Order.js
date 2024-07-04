@@ -1,9 +1,9 @@
 // src/models/Order.js
 
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db').default;
-const User = require('./User');
-const Book = require('./Book');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
+import User from './User.js';
+import Book from './Book.js';
 
 const Order = sequelize.define('Order', {
     userId: {
@@ -23,9 +23,20 @@ const Order = sequelize.define('Order', {
         allowNull: false,
     },
     status: {
-        type: DataTypes.ENUM('processing', 'shipped', 'delivered'),
+        type: DataTypes.ENUM('processing', 'shipped', 'delivered', 'cancelled'),
         defaultValue: 'processing',
     },
+    paymentStatus: {
+        type: DataTypes.ENUM('pending', 'completed', 'failed'),
+        defaultValue: 'pending',
+    },
+    orderId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+    },
+}, {
+    timestamps: true,
 });
 
 const OrderItem = sequelize.define('OrderItem', {
@@ -49,6 +60,8 @@ const OrderItem = sequelize.define('OrderItem', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+}, {
+    timestamps: true,
 });
 
 Order.hasMany(OrderItem, { as: 'items' });
@@ -59,5 +72,4 @@ OrderItem.belongsTo(Book);
 Order.sync({ alter: true });
 OrderItem.sync({ alter: true });
 
-module.exports = { Order, OrderItem };
- 
+export { Order, OrderItem };

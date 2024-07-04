@@ -1,7 +1,7 @@
 // src/middleware/authMiddleware.js
 
-import { verify } from 'jsonwebtoken';
-import { findById } from '../models/User';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 const protect = async (req, res, next) => {
     let token;
@@ -9,8 +9,8 @@ const protect = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1];
-            const decoded = verify(token, process.env.JWT_SECRET);
-            req.user = await findById(decoded.id).select('-password');
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = await User.findByPk(decoded.id);
             next();
         } catch (error) {
             res.status(401).json({ message: 'Not authorized, token failed' });
@@ -26,11 +26,8 @@ const admin = (req, res, next) => {
     if (req.user && req.user.role === 'admin') {
         next();
     } else {
-        res.status(401).json({ message: 'Not authorized as an admin' });
+        res.status(403).json({ message: 'Not authorized as an admin' });
     }
 };
 
-export default {
-    protect,
-    admin,
-};
+export { protect, admin };

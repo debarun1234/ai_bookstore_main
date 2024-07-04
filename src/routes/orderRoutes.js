@@ -1,9 +1,9 @@
 // src/routes/orderRoutes.js
 
-const express = require('express');
-const { check } = require('express-validator');
-const { addOrderItems, getOrderById, updateOrderToShipped, updateOrderToDelivered, getUserOrders } = require('../controllers/orderController');
-const { protect, admin } = require('../middleware/authMiddleware');
+import express from 'express';
+import { check } from 'express-validator';
+import { addOrderItems, getOrderById, updateOrderStatus, getUserOrders, cancelOrder, getUserOrderHistory } from '../controllers/orderController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -17,13 +17,19 @@ router.route('/')
 router.route('/myorders')
     .get(protect, getUserOrders);
 
+router.route('/history')
+    .get(protect, getUserOrderHistory);
+
 router.route('/:id')
     .get(protect, getOrderById);
 
-router.route('/:id/ship')
-    .put(protect, admin, updateOrderToShipped);
+router.route('/update-status')
+    .post(protect, admin, [
+        check('orderId', 'Order ID is required').not().isEmpty(),
+        check('status', 'Status is required').isIn(['processing', 'shipped', 'delivered', 'cancelled'])
+    ], updateOrderStatus);
 
-router.route('/:id/deliver')
-    .put(protect, admin, updateOrderToDelivered);
+router.route('/cancel')
+    .post(protect, cancelOrder);
 
-module.exports = router;
+export default router;

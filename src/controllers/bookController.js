@@ -1,14 +1,14 @@
 // src/controllers/bookController.js
 
-import { findAll, findByPk, create } from '../models/Book';
+import Book from '../models/Book.js';
 
 const getBooks = async (req, res) => {
-    const books = await findAll();
+    const books = await Book.findAll();
     res.json(books);
 };
 
 const getBookById = async (req, res) => {
-    const book = await findByPk(req.params.id);
+    const book = await Book.findByPk(req.params.id);
 
     if (book) {
         res.json(book);
@@ -20,7 +20,7 @@ const getBookById = async (req, res) => {
 const createBook = async (req, res) => {
     const { title, author, genre, description, price, isbn } = req.body;
 
-    const book = await create({
+    const book = await Book.create({
         title,
         author,
         genre,
@@ -35,7 +35,7 @@ const createBook = async (req, res) => {
 const updateBook = async (req, res) => {
     const { title, author, genre, description, price, isbn } = req.body;
 
-    const book = await findByPk(req.params.id);
+    const book = await Book.findByPk(req.params.id);
 
     if (book) {
         book.title = title;
@@ -53,7 +53,7 @@ const updateBook = async (req, res) => {
 };
 
 const deleteBook = async (req, res) => {
-    const book = await findByPk(req.params.id);
+    const book = await Book.findByPk(req.params.id);
 
     if (book) {
         await book.destroy();
@@ -63,10 +63,4 @@ const deleteBook = async (req, res) => {
     }
 };
 
-export default {
-    getBooks,
-    getBookById,
-    createBook,
-    updateBook,
-    deleteBook,
-};
+export { getBooks, getBookById, createBook, updateBook, deleteBook };

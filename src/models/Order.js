@@ -1,7 +1,7 @@
 // src/models/Order.js
 
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db');
+const { sequelize } = require('../config/db').default;
 const User = require('./User');
 const Book = require('./Book');
 
@@ -60,3 +60,4 @@ Order.sync({ alter: true });
 OrderItem.sync({ alter: true });
 
 module.exports = { Order, OrderItem };
+ 

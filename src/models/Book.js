@@ -1,7 +1,7 @@
 // src/models/Book.js
 
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db';
 
 const Book = sequelize.define('Book', {
     title: {
@@ -33,4 +33,4 @@ const Book = sequelize.define('Book', {
 
 Book.sync({ alter: true });
 
-module.exports = Book;
+export default Book;

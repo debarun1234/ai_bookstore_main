@@ -1,7 +1,7 @@
 // src/controllers/orderController.js
 
-const { Order, OrderItem } = require('../models/Order');
-const Book = require('../models/Book');
+import { Order, OrderItem } from '../models/Order';
+import { findByPk } from '../models/Book';
 
 const addOrderItems = async (req, res) => {
     const { orderItems, address, totalAmount } = req.body;
@@ -17,7 +17,7 @@ const addOrderItems = async (req, res) => {
         });
 
         const orderItemsPromises = orderItems.map(async item => {
-            const book = await Book.findByPk(item.bookId);
+            const book = await findByPk(item.bookId);
             if (book) {
                 await OrderItem.create({
                     orderId: order.id,
@@ -76,7 +76,7 @@ const getUserOrders = async (req, res) => {
     res.json(orders);
 };
 
-module.exports = {
+export default {
     addOrderItems,
     getOrderById,
     updateOrderToShipped,

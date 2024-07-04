@@ -1,8 +1,44 @@
 // src/controllers/orderController.js
 
 import { Order, OrderItem } from '../models/Order.js';
+import Shipment from '../models/Shipment.js';
 import Book from '../models/Book.js';
 import { v4 as uuidv4 } from 'uuid';
+import nodemailer from 'nodemailer'; // For email notifications
+import twilio from 'twilio'; // For SMS notifications
+
+// Twilio setup
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = new twilio(accountSid, authToken);
+
+// Nodemailer setup
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+const sendNotification = async (order, message) => {
+    const user = await order.getUser();
+    // Send SMS
+    client.messages.create({
+        body: message,
+        to: user.phone,
+        from: process.env.TWILIO_PHONE_NUMBER
+    });
+
+    // Send Email
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: user.email,
+        subject: 'Order Notification',
+        text: message
+    };
+    transporter.sendMail(mailOptions);
+};
 
 const addOrderItems = async (req, res) => {
     const { orderItems, address, totalAmount } = req.body;
@@ -33,6 +69,9 @@ const addOrderItems = async (req, res) => {
     });
 
     await Promise.all(orderItemsPromises);
+
+    await sendNotification(order, `Your order with ID ${orderId} has been placed successfully.`);
+
     res.status(201).json(order);
 };
 
@@ -59,6 +98,15 @@ const updateOrderStatus = async (req, res) => {
 
     order.status = status;
     await order.save();
+
+    if (status === 'shipped') {
+        await Shipment.create({
+            orderId: order.id,
+            trackingNumber: uuidv4(), // Generate a tracking number
+        });
+    }
+
+    await sendNotification(order, `Your order with ID ${orderId} has been ${status}.`);
 
     res.status(200).json(order);
 };
@@ -88,7 +136,18 @@ const cancelOrder = async (req, res) => {
     order.status = 'cancelled';
     await order.save();
 
+    await sendNotification(order, `Your order with ID ${orderId} has been cancelled.`);
+
     res.status(200).json({ message: 'Order cancelled successfully' });
 };
 
-export { addOrderItems, getOrderById, updateOrderStatus, getUserOrders, cancelOrder };
+const getUserOrderHistory = async (req, res) => {
+    const orders = await Order.findAll({
+        where: { userId: req.user.id },
+        include: [{ model: OrderItem, as: 'items' }],
+        order: [['createdAt', 'DESC']]
+    });
+    res.json(orders);
+};
+
+export { addOrderItems, getOrderById, updateOrderStatus, getUserOrders, cancelOrder, getUserOrderHistory };

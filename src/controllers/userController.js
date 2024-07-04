@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
             email: user.email,
             phone: user.phone,
             role: user.role,
-            token: generateToken(user.id),
+            token: generateToken(user.id, user.role),
         });
     } else {
         res.status(400).json({ message: 'Invalid user data' });
@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
             email: user.email,
             phone: user.phone,
             role: user.role,
-            token: generateToken(user.id),
+            token: generateToken(user.id, user.role),
         });
     } else {
         res.status(401).json({ message: 'Invalid email or password' });

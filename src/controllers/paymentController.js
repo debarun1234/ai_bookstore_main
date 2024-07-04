@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import axios from 'axios';
 import Payment from '../models/Payment.js';
+import Order from '../models/Order.js'; // Ensure Order model is imported
 
 dotenv.config();
 
@@ -15,26 +16,34 @@ const getConversionRate = async (fromCurrency, toCurrency) => {
 };
 
 const createPaymentIntent = async (req, res) => {
-    const { amount, currency } = req.body;
+    const { orderId, amount, currency = 'inr', paymentMethod } = req.body; // Default currency as INR
     const userId = req.user.id;
 
     try {
+        const order = await Order.findByPk(orderId);
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
         let convertedAmount = amount;
 
-        if (currency !== 'usd') {
+        if (currency !== 'inr') {
             const conversionRate = await getConversionRate(currency, 'usd');
             convertedAmount = amount * conversionRate;
         }
 
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: convertedAmount * 100, // Amount in cents
-            currency: 'usd',
+            amount: Math.round(convertedAmount * 100), // Amount in cents
+            currency: 'inr',
+            payment_method_types: [paymentMethod === 'credit/debit card' ? 'card' : ''],
         });
 
         const payment = await Payment.create({
             userId,
+            orderId,
             amount,
             currency,
+            paymentMethod,
             status: paymentIntent.status,
             paymentIntentId: paymentIntent.id,
         });

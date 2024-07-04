@@ -1,9 +1,9 @@
 // src/routes/orderRoutes.js
 
-const express = require('express');
-const { check } = require('express-validator');
-const { addOrderItems, getOrderById, updateOrderToShipped, updateOrderToDelivered, getUserOrders } = require('../controllers/orderController');
-const { protect, admin } = require('../middleware/authMiddleware');
+import express from 'express';
+import { check } from 'express-validator';
+import { addOrderItems, getOrderById, updateOrderToShipped, updateOrderToDelivered, getUserOrders } from '../controllers/orderController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -26,4 +26,4 @@ router.route('/:id/ship')
 router.route('/:id/deliver')
     .put(protect, admin, updateOrderToDelivered);
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
 // src/models/Book.js
 
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/db';
+import { sequelize } from '../config/db.js';
 
 const Book = sequelize.define('Book', {
     title: {

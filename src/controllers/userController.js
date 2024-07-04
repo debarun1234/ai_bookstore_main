@@ -1,19 +1,19 @@
 // src/controllers/userController.js
 
-import { findOne, create, findByPk } from '../models/User';
-import generateToken from '../utils/generateToken';
+import User from '../models/User.js';
+import generateToken from '../utils/generateToken.js';
 
 const registerUser = async (req, res) => {
     const { firstName, lastName, email, password, phone, role } = req.body;
 
-    const userExists = await findOne({ where: { email } });
+    const userExists = await User.findOne({ where: { email } });
 
     if (userExists) {
         res.status(400).json({ message: 'User already exists' });
         return;
     }
 
-    const user = await create({
+    const user = await User.create({
         firstName,
         lastName,
         email,
@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
 
     if (user && (await user.matchPassword(password))) {
         res.json({
@@ -58,7 +58,7 @@ const loginUser = async (req, res) => {
 };
 
 const getUserProfile = async (req, res) => {
-    const user = await findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id);
 
     if (user) {
         res.json({
@@ -74,8 +74,4 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-export default {
-    registerUser,
-    loginUser,
-    getUserProfile,
-};
+export { registerUser, loginUser, getUserProfile };

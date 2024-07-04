@@ -1,9 +1,9 @@
 // src/routes/userRoutes.js
 
-const express = require('express');
-const { check } = require('express-validator');
-const { registerUser, loginUser, getUserProfile } = require('../controllers/userController');
-const { protect } = require('../middleware/authMiddleware');
+import express from 'express';
+import { check } from 'express-validator';
+import { registerUser, loginUser, getUserProfile } from '../controllers/userController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -24,4 +24,4 @@ router.route('/login')
 router.route('/profile')
     .get(protect, getUserProfile);
 
-module.exports = router;
+export default router;

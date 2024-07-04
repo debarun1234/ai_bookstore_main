@@ -1,8 +1,8 @@
 // src/models/User.js
 
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db').default;
-const bcrypt = require('bcryptjs');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
+import bcrypt from 'bcryptjs';
 
 const User = sequelize.define('User', {
     firstName: {
@@ -30,6 +30,10 @@ const User = sequelize.define('User', {
         type: DataTypes.ENUM('user', 'seller'),
         allowNull: false,
     },
+    wishlist: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER), // Array of book IDs
+        defaultValue: [],
+    },
 }, {
     hooks: {
         beforeSave: async (user) => {
@@ -47,4 +51,6 @@ User.prototype.matchPassword = async function(enteredPassword) {
 
 User.sync({ alter: true });
 
-module.exports = User;
+export default User;
+
+

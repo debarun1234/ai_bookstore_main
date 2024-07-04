@@ -1,9 +1,9 @@
 // src/models/Order.js
 
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db').default;
-const User = require('./User');
-const Book = require('./Book');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
+import User from './User.js';
+import Book from './Book.js';
 
 const Order = sequelize.define('Order', {
     userId: {
@@ -59,5 +59,4 @@ OrderItem.belongsTo(Book);
 Order.sync({ alter: true });
 OrderItem.sync({ alter: true });
 
-module.exports = { Order, OrderItem };
- 
+export { Order, OrderItem };

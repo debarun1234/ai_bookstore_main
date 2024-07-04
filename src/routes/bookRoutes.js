@@ -1,9 +1,9 @@
 // src/routes/bookRoutes.js
 
-const express = require('express');
-const { check } = require('express-validator');
-const { getBooks, getBookById, createBook, updateBook, deleteBook } = require('../controllers/bookController');
-const { protect, admin } = require('../middleware/authMiddleware');
+import express from 'express';
+import { check } from 'express-validator';
+import { getBooks, getBookById, createBook, updateBook, deleteBook } from '../controllers/bookController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -30,4 +30,4 @@ router.route('/:id')
     ], updateBook)
     .delete(protect, admin, deleteBook);
 
-module.exports = router;
+export default router;

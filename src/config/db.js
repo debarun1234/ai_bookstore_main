@@ -1,9 +1,9 @@
 // src/config/db.js
 
 import { Sequelize } from 'sequelize';
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
 
-config();
+dotenv.config();
 
 const sequelize = new Sequelize(process.env.PG_URI, {
     dialect: 'postgres',
@@ -20,5 +20,4 @@ const connectDB = async () => {
     }
 };
 
-export default { sequelize, connectDB };export const { sequelize } =;
-
+export { sequelize, connectDB };

@@ -29,6 +29,21 @@ const Book = sequelize.define('Book', {
         allowNull: false,
         unique: true,
     },
+}, {
+    indexes: [
+        {
+            fields: ['title'],
+        },
+        {
+            fields: ['author'],
+        },
+        {
+            fields: ['genre'],
+        },
+        {
+            fields: ['isbn'],
+        },
+    ],
 });
 
 Book.sync({ alter: true });

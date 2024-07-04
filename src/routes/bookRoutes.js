@@ -4,12 +4,26 @@ import express from 'express';
 import { check } from 'express-validator';
 import { getBooks, getBookById, createBook, updateBook, deleteBook } from '../controllers/bookController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
+import cache from '../middleware/cacheMiddleware.js';
+import rateLimit from 'express-rate-limit';
 
 const router = express.Router();
 
+const createBookLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // Limit each IP to 10 create book requests per windowMs
+    message: 'Too many books created from this IP, please try again later.'
+});
+
+const updateBookLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // Limit each IP to 10 update book requests per windowMs
+    message: 'Too many books updated from this IP, please try again later.'
+});
+
 router.route('/')
-    .get(getBooks)
-    .post(protect, admin, [
+    .get(cache('books'), getBooks)
+    .post(protect, admin, createBookLimiter, [
         check('title', 'Title is required').not().isEmpty(),
         check('author', 'Author is required').not().isEmpty(),
         check('genre', 'Genre is required').not().isEmpty(),
@@ -19,8 +33,8 @@ router.route('/')
     ], createBook);
 
 router.route('/:id')
-    .get(getBookById)
-    .put(protect, admin, [
+    .get(cache('book'), getBookById)
+    .put(protect, admin, updateBookLimiter, [
         check('title', 'Title is required').not().isEmpty(),
         check('author', 'Author is required').not().isEmpty(),
         check('genre', 'Genre is required').not().isEmpty(),
@@ -31,3 +45,4 @@ router.route('/:id')
     .delete(protect, admin, deleteBook);
 
 export default router;
+

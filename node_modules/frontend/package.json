@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@stripe/react-stripe-js": "^2.7.3",
+    "@stripe/stripe-js": "^4.1.0",
+    "axios": "^1.7.2",
+    "react": "^18.3.1",
+    "react-chat-widget": "^3.1.4",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.4"
+  },
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4"
+  }
+}

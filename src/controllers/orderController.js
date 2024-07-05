@@ -6,6 +6,15 @@ import Book from '../models/Book.js';
 import { v4 as uuidv4 } from 'uuid';
 import nodemailer from 'nodemailer'; // For email notifications
 import twilio from 'twilio'; // For SMS notifications
+import Payment from '../models/Payment.js';
+import Stripe from 'stripe';
+import Razorpay from 'razorpay';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 // Twilio setup
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -120,13 +129,12 @@ const getUserOrders = async (req, res) => {
 };
 
 const cancelOrder = async (req, res) => {
-    const { orderId } = req.body;
-    const user = req.user;
+    const { orderId, phone } = req.body;
 
-    const order = await Order.findOne({ where: { orderId, userId: user.id } });
+    const order = await Order.findOne({ where: { orderId, phone } });
 
     if (!order) {
-        return res.status(404).json({ message: 'Order not found' });
+        return res.status(404).json({ message: 'Order not found or phone number mismatch' });
     }
 
     if (order.status === 'shipped' || order.status === 'delivered') {
@@ -136,9 +144,40 @@ const cancelOrder = async (req, res) => {
     order.status = 'cancelled';
     await order.save();
 
+    // Process refund based on payment method
+    const payment = await Payment.findOne({ where: { orderId: order.id } });
+
+    if (!payment) {
+        return res.status(404).json({ message: 'Payment not found for this order' });
+    }
+
+    if (payment.paymentMethod === 'credit/debit card') {
+        // Refund using Stripe
+        const refund = await stripe.refunds.create({
+            payment_intent: payment.paymentIntentId,
+        });
+
+        payment.status = 'refunded';
+        payment.transactionId = refund.id;
+    } else if (payment.paymentMethod === 'Razorpay') {
+        // Refund using Razorpay
+        const refund = await razorpay.payments.refund(payment.transactionId);
+
+        payment.status = 'refunded';
+        payment.transactionId = refund.id;
+    } else if (payment.paymentMethod === 'UPI') {
+        // Refund using Razorpay for UPI
+        const refund = await razorpay.payments.refund(payment.transactionId);
+
+        payment.status = 'refunded';
+        payment.transactionId = refund.id;
+    }
+
+    await payment.save();
+
     await sendNotification(order, `Your order with ID ${orderId} has been cancelled.`);
 
-    res.status(200).json({ message: 'Order cancelled successfully' });
+    res.status(200).json({ message: 'Order cancelled and refund processed successfully' });
 };
 
 const getUserOrderHistory = async (req, res) => {

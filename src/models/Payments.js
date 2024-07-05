@@ -30,11 +30,11 @@ const Payment = sequelize.define('Payment', {
         defaultValue: 'inr', // Default currency as INR
     },
     status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('pending', 'completed', 'failed', 'refunded'),
         allowNull: false,
     },
     paymentMethod: {
-        type: DataTypes.ENUM('UPI', 'credit/debit card', 'COD'),
+        type: DataTypes.ENUM('UPI', 'credit/debit card', 'COD', 'Razorpay'),
         allowNull: false,
     },
     paymentIntentId: {
@@ -46,7 +46,7 @@ const Payment = sequelize.define('Payment', {
         type: DataTypes.STRING,
         allowNull: true,
         unique: true,
-    }
+    },
 }, {
     timestamps: true
 });

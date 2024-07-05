@@ -17,9 +17,9 @@ const Shipment = sequelize.define('Shipment', {
         allowNull: false,
     },
     status: {
-        type: DataTypes.ENUM('in transit', 'delivered', 'returned'),
-        defaultValue: 'in transit',
-    },
+        type: DataTypes.ENUM('pending', 'shipped', 'delivered'),
+        defaultValue: 'pending',
+    }
 }, {
     timestamps: true
 });

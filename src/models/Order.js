@@ -27,13 +27,17 @@ const Order = sequelize.define('Order', {
         defaultValue: 'processing',
     },
     paymentStatus: {
-        type: DataTypes.ENUM('pending', 'completed', 'failed'),
+        type: DataTypes.ENUM('pending', 'completed', 'failed', 'refunded'),
         defaultValue: 'pending',
     },
     orderId: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
 }, {
     timestamps: true,

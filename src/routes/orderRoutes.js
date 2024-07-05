@@ -30,6 +30,9 @@ router.route('/update-status')
     ], updateOrderStatus);
 
 router.route('/cancel')
-    .post(protect, cancelOrder);
+    .post(protect, [
+        check('orderId', 'Order ID is required').not().isEmpty(),
+        check('phone', 'Phone number is required').not().isEmpty(),
+    ], cancelOrder);
 
 export default router;

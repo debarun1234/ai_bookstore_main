@@ -5,8 +5,8 @@ Planned and Developed by - Debarun Ghosh
 
 **System Overview**
 
-**Participants**: AI bot (interactor), Seller, User
-**Theme**: Gen AI (interactive online bookstore)
+**Participants**: AI bot (interactor), Seller, User <br>
+**Theme**: Gen AI (interactive online bookstore) <br>
 **Platform**: GUI-based interface controlled and managed by AI
 
 **Objectives**

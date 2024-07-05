@@ -37,7 +37,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/complaints', complaintRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Welcome to AI Bookstore Backend');
+    res.send('Welcome to AI Bookstore');
 });
 
 app.use(errorHandler);

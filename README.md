@@ -17,6 +17,87 @@ Planned and Developed by - Debarun Ghosh
     
 *   Minimize the steps and interactions required by users and sellers.
     
+**Overall Project Directory**
+```bash
+ai_bookstore_main/
+├── backend/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── ComplaintForm.js
+│   │   │   ├── PaymentForm.js
+│   │   │   ├── Recommendations.js
+│   │   ├── config/
+│   │   │   ├── db.js
+│   │   │   ├── redis.js
+│   │   ├── controllers/
+│   │   │   ├── aiController.js
+│   │   │   ├── bookController.js
+│   │   │   ├── complaintController.js
+│   │   │   ├── orderController.js
+│   │   │   ├── paymentController.js
+│   │   │   ├── shipmentController.js
+│   │   │   ├── userController.js
+│   │   │   ├── wishlistController.js
+│   │   ├── middleware/
+│   │   │   ├── authMiddleware.js
+│   │   │   ├── cacheMiddleware.js
+│   │   │   ├── errorMiddleware.js
+│   │   │   ├── ratelimiter.js
+│   │   ├── models/
+│   │   │   ├── Book.js
+│   │   │   ├── Complaint.js
+│   │   │   ├── Order.js
+│   │   │   ├── Payments.js
+│   │   │   ├── Recommendation.js
+│   │   │   ├── Shipments.js
+│   │   │   ├── User.js
+│   │   │   ├── wishlist.js
+│   │   ├── routes/
+│   │   │   ├── aiRoutes.js
+│   │   │   ├── bookRoutes.js
+│   │   │   ├── complaintRoutes.js
+│   │   │   ├── orderRoutes.js
+│   │   │   ├── paymentRoutes.js
+│   │   │   ├── shipmentRoutes.js
+│   │   │   ├── userRoutes.js
+│   │   │   ├── wishlistRoutes.js
+│   │   ├── utils/
+│   │   │   ├── generateToken.js
+│   │   ├── App.js
+│   │   ├── index.js
+│   ├── .env
+│   ├── DEV_Plan.md
+│   ├── package.json
+│   ├── package-lock.json
+├── frontend/
+│   ├── node_modules/
+│   ├── public/
+│   │   ├── index.html
+│   ├── src/
+│   │   ├── index.js
+│   │   ├── App.js
+│   │   ├── config.js
+│   │   ├── MessageParser.js
+│   │   ├── ActionProvider.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   ├── package.json
+│   ├── package-lock.json
+├── rasa/
+│   ├── actions/
+│   │   ├── __init__.py
+│   │   ├── actions.py
+│   ├── data/
+│   │   ├── nlu.yml
+│   │   ├── stories.yml
+│   ├── models/
+│   ├── config.yml
+│   ├── credentials.yml
+│   ├── domain.yml
+│   ├── endpoints.yml
+│   ├── requirements.txt
+```
 
 System Components and Workflow
 ------------------------------

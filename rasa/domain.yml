@@ -1,0 +1,152 @@
+intents:
+  - greet
+  - user
+  - seller
+  - provide_info
+  - book_search
+  - order_status
+  - add_to_wishlist
+  - remove_from_wishlist
+  - complaint
+  - seller_login
+  - add_book
+  - update_order_status
+  - update_shipment_status
+  - view_dashboard
+
+entities:
+  - name
+  - dob
+  - email
+  - phone
+  - address
+  - author
+  - title
+  - order_id
+  - status
+  - genre
+  - description
+  - price
+  - isbn
+
+slots:
+  name:
+    type: text
+  dob:
+    type: text
+  email:
+    type: text
+  phone:
+    type: text
+  address:
+    type: text
+  author:
+    type: text
+  title:
+    type: text
+  order_id:
+    type: text
+  status:
+    type: text
+  genre:
+    type: text
+  description:
+    type: text
+  price:
+    type: text
+  isbn:
+    type: text
+
+responses:
+  utter_greet:
+    - text: "Hello! Are you a User or Seller?"
+  utter_ask_info:
+    - text: "Please provide your {info_type}."
+  utter_book_search:
+    - text: "Please provide the name of the book or author."
+  utter_order_status:
+    - text: "Please provide your order ID to check the status."
+  utter_add_to_wishlist:
+    - text: "{title} has been added to your wishlist."
+  utter_remove_from_wishlist:
+    - text: "{title} has been removed from your wishlist."
+  utter_complaint:
+    - text: "Your complaint has been registered. We will get back to you shortly."
+  utter_ask_credentials:
+    - text: "Please provide your email and password."
+  utter_ask_book_details:
+    - text: "Please provide the details of the book you want to add."
+  utter_ask_order_status:
+    - text: "Please provide the order ID and the new status."
+  utter_ask_shipment_status:
+    - text: "Please provide the order ID and the new shipment status."
+  utter_dashboard_info:
+    - text: "Dashboard Info: {dashboard_info}"
+
+actions:
+  - action_provide_info
+  - action_book_search
+  - action_order_status
+  - action_add_to_wishlist
+  - action_remove_from_wishlist
+  - action_handle_complaint
+  - action_seller_login
+  - action_add_book
+  - action_update_order_status
+  - action_update_shipment_status
+  - action_get_seller_dashboard
+
+
+forms:
+  user_info_form:
+    required_slots:
+      name:
+        - type: from_text
+      dob:
+        - type: from_text
+      email:
+        - type: from_text
+      phone:
+        - type: from_text
+      address:
+        - type: from_text
+  
+  seller_login_form:
+    required_slots:
+      email:
+        - type: from_text
+      password:
+        - type: from_text
+
+  add_book_form:
+    required_slots:
+      title:
+        - type: from_text
+      author:
+        - type: from_text
+      genre:
+        - type: from_text
+      description:
+        - type: from_text
+      price:
+        - type: from_text
+      isbn:
+        - type: from_text
+
+  update_order_status_form:
+    required_slots:
+      order_id:
+        - type: from_text
+      status:
+        - type: from_text
+
+  update_shipment_status_form:
+    required_slots:
+      order_id:
+        - type: from_text
+      status:
+        - type: from_text
+
+session_config:
+  session_expiration_time: 3600
+  carry_over_slots_to_new_session: true

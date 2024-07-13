@@ -1,0 +1,90 @@
+version: "2.0"
+stories:
+  - story: greet user
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  - story: user interaction
+    steps:
+      - intent: user
+      - action: utter_ask_info
+      - action: user_info_form
+      - active_loop: user_info_form
+      - active_loop: null
+      - action: utter_book_search
+
+  - story: seller interaction
+    steps:
+      - intent: seller
+      - action: utter_ask_info
+      - action: user_info_form
+      - active_loop: user_info_form
+      - active_loop: null
+      - action: utter_order_status
+
+  - story: book search
+    steps:
+      - intent: book_search
+      - action: action_book_search
+
+  - story: order status
+    steps:
+      - intent: order_status
+      - action: action_order_status
+
+  - story: add to wishlist
+    steps:
+      - intent: add_to_wishlist
+      - action: action_add_to_wishlist
+
+  - story: remove from wishlist
+    steps:
+      - intent: remove_from_wishlist
+      - action: action_remove_from_wishlist
+
+  - story: handle complaint
+    steps:
+      - intent: complaint
+      - action: action_handle_complaint
+
+  - story: seller login
+    steps:
+      - intent: seller_login
+      - action: utter_ask_credentials
+      - action: seller_login_form
+      - active_loop: seller_login_form
+      - active_loop: null
+      - action: action_seller_login
+
+  - story: seller adds book
+    steps:
+      - intent: add_book
+      - action: utter_ask_book_details
+      - action: add_book_form
+      - active_loop: add_book_form
+      - active_loop: null
+      - action: action_add_book
+
+  - story: seller updates order status
+    steps:
+      - intent: update_order_status
+      - action: utter_ask_order_status
+      - action: update_order_status_form
+      - active_loop: update_order_status_form
+      - active_loop: null
+      - action: action_update_order_status
+
+  - story: seller updates shipment status
+    steps:
+      - intent: update_shipment_status
+      - action: utter_ask_shipment_status
+      - action: update_shipment_status_form
+      - active_loop: update_shipment_status_form
+      - active_loop: null
+      - action: action_update_shipment_status
+
+  - story: seller views dashboard
+    steps:
+      - intent: view_dashboard
+      - action: action_get_seller_dashboard

@@ -5,7 +5,9 @@ Planned and Developed by - Debarun Ghosh
 
 **System Overview**
 
-**Participants**: AI bot (interactor), Seller, User**Theme**: Gen AI (interactive online bookstore)**Platform**: GUI-based interface controlled and managed by AI
+**Participants**: AI bot (interactor), Seller, User <br>
+**Theme**: Gen AI (interactive online bookstore) <br>
+**Platform**: GUI-based interface controlled and managed by AI
 
 **Objectives**
 
@@ -393,3 +395,56 @@ Implementation Steps
 *   Comprehensive dashboard with key metrics and insights.
     
 *   Simplified complaint management system for quick issue resolution.
+
+**Directory Structure**:
+```bash
+ai_bookstore_main/
+├── .vscode/
+├── backend/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── utils/
+│   │   ├── App.js
+│   │   ├── index.js
+│   ├── .env
+│   ├── DEV_Plan.md
+│   ├── package-lock.json
+│   ├── package.json
+├── frontend/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── App.js
+│   │   ├── index.js
+│   ├── public/
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+├── rasa/
+│   ├── actions/
+│   │   ├── __init__.py
+│   │   ├── actions.py
+│   ├── data/
+│   │   ├── nlu.yml
+│   │   ├── stories.yml
+│   ├── models/
+│   ├── config.yml
+│   ├── credentials.yml
+│   ├── domain.yml
+│   ├── endpoints.yml
+│   ├── requirements.txt
+│   └── README.md
+├── node_modules/
+├── venv/
+├── LICENSE
+├── package.json
+├── README.md
+├── yarn.lock
+```

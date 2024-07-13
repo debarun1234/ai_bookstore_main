@@ -1,0 +1,50 @@
+version: "2.0"
+nlu:
+  - intent: greet
+    examples: |
+      - Hi
+      - Hello
+      - Hey
+
+  - intent: user
+    examples: |
+      - I am a user
+      - I want to browse books
+      - I want to check my orders
+
+  - intent: seller
+    examples: |
+      - I am a seller
+      - I want to manage my books
+      - I need to handle orders
+
+  - intent: provide_info
+    examples: |
+      - My name is [John Doe](name)
+      - My email is [john@example.com](email)
+      - My phone number is [1234567890](phone)
+
+  - intent: book_search
+    examples: |
+      - I am looking for books by [J.K. Rowling](author)
+      - Do you have any books titled [Harry Potter](title)?
+
+  - intent: order_status
+    examples: |
+      - What is the status of my order with ID [12345](order_id)?
+      - Can you check my order [67890](order_id)?
+
+  - intent: add_to_wishlist
+    examples: |
+      - Add [Harry Potter](title) to my wishlist
+      - I want to add [The Hobbit](title) to my wishlist
+
+  - intent: remove_from_wishlist
+    examples: |
+      - Remove [Harry Potter](title) from my wishlist
+      - Take [The Hobbit](title) out of my wishlist
+
+  - intent: complaint
+    examples: |
+      - I have a complaint about my order
+      - I want to file a complaint

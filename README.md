@@ -23,7 +23,6 @@ Planned and Developed by - Debarun Ghosh
 ```bash
 ai_bookstore_main/
 ├── backend/
-│   ├── node_modules/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── ComplaintForm.js
@@ -54,7 +53,7 @@ ai_bookstore_main/
 │   │   │   ├── Recommendation.js
 │   │   │   ├── Shipments.js
 │   │   │   ├── User.js
-│   │   │   ├── wishlist.js
+│   │   │   ├── Wishlist.js
 │   │   ├── routes/
 │   │   │   ├── aiRoutes.js
 │   │   │   ├── bookRoutes.js
@@ -70,10 +69,7 @@ ai_bookstore_main/
 │   │   ├── index.js
 │   ├── .env
 │   ├── DEV_Plan.md
-│   ├── package.json
-│   ├── package-lock.json
 ├── frontend/
-│   ├── node_modules/
 │   ├── public/
 │   │   ├── index.html
 │   ├── src/
@@ -82,10 +78,9 @@ ai_bookstore_main/
 │   │   ├── config.js
 │   │   ├── MessageParser.js
 │   │   ├── ActionProvider.js
-│   ├── tailwind.config.js
-│   ├── postcss.config.js
-│   ├── package.json
-│   ├── package-lock.json
+│   │   ├── index.css
+│   │   ├── tailwind.config.js
+│   │   ├── postcss.config.js
 ├── rasa/
 │   ├── actions/
 │   │   ├── __init__.py
@@ -99,6 +94,12 @@ ai_bookstore_main/
 │   ├── domain.yml
 │   ├── endpoints.yml
 │   ├── requirements.txt
+├── node_modules/
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── README.md
+
 ```
 
 System Components and Workflow

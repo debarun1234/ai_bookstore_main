@@ -1,16 +1,20 @@
 {
   "name": "ai_bookstore_main",
   "version": "1.0.0",
+  "description": "AI-Driven Bookstore System Plan",
   "main": "index.js",
-  "repository": "https://github.com/debarun1234/ai_bookstore_main.git",
-  "author": "Debarun Ghosh <debarun.ghosh.2024@gmail.com>",
-  "license": "MIT",
-  "private": true,
+  "type": "module",
   "scripts": {
     "start:backend": "nodemon backend/src/index.js",
-    "start:frontend": "cd frontend && npm start",
-    "test": "jest"
+    "start:frontend": "react-scripts start",
+    "build:frontend": "react-scripts build",
+    "test:backend": "jest",
+    "test:frontend": "react-scripts test",
+    "eject:frontend": "react-scripts eject"
   },
+  "keywords": [],
+  "author": "Debarun Ghosh",
+  "license": "ISC",
   "dependencies": {
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
@@ -27,13 +31,12 @@
     "razorpay": "^2.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^3.4.4",
-    "react-simple-chatbot": "^0.6.1",
+    "react-scripts": "^5.0.1",
+    "react-simple-chatbot": "^0.5.0",
     "redis": "^4.6.15",
     "sequelize": "^6.37.3",
     "stripe": "^16.1.0",
-    "styled-components": "^5.3.11",
-    "winston": "^3.13.0"
+    "styled-components": "^4.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

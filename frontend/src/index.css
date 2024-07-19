@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   font-family: 'Helvetica Neue', sans-serif;
   background-color: #f5f8fb;

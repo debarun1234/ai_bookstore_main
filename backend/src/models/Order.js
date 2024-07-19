@@ -76,4 +76,5 @@ OrderItem.belongsTo(Book);
 Order.sync({ alter: true });
 OrderItem.sync({ alter: true });
 
-export { Order, OrderItem };
+export default Order;
+export { OrderItem };

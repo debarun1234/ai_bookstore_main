@@ -1,6 +1,6 @@
 // src/controllers/orderController.js
 
-import { Order, OrderItem } from '../models/Order.js';
+import Order, { OrderItem } from '../models/Order.js';
 import Shipment from '../models/Shipment.js';
 import Book from '../models/Book.js';
 import { v4 as uuidv4 } from 'uuid';
